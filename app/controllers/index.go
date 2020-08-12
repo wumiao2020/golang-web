@@ -1,0 +1,12 @@
+package controllers
+
+import "github.com/kataras/iris"
+
+func Index(ctx iris.Context) {
+	ctx.ViewData("title","首页")
+	err := ctx.View("index.html")
+	if err != nil {
+		ctx.StatusCode(iris.StatusInternalServerError)
+		ctx.Writef(err.Error())
+	}
+}
