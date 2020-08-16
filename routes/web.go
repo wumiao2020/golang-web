@@ -10,28 +10,28 @@ import (
 )
 
 type Menu struct {
-	Title string
+	Title      string
 	Identifier string
 }
 
 func FrontendStart() {
 	app := iris.New()
 	app.Logger().SetLevel("debug")
-	app.HandleDir("/", "../public")
+	app.HandleDir("/", "./public")
 	// 设置关注的视图目录，和文件后缀
 	tmpl := iris.HTML("./resources/views/frontend", ".html")
 	tmpl.Layout("layouts/layout.html")
 	// 是否每次请求都重新加载文件，这个在开发期间设置为true，在发布时设置为false
 	// 可以方便每次修改视图文件而无需停止服务
 	tmpl.Reload(true)
-	tmpl.AddFunc("greet", func(x int,y int) bool {
-		return (x+1) % y == 0
+	tmpl.AddFunc("greet", func(x int, y int) bool {
+		return (x+1)%y == 0
 	})
 	tmpl.AddFunc("nowYear", func() int {
 		return time.Now().UTC().Year()
 	})
 	app.Use(func(ctx iris.Context) {
-		ctx.ViewData("nav",Nav())
+		ctx.ViewData("nav", Nav())
 		ctx.Next()
 	})
 
@@ -43,8 +43,8 @@ func FrontendStart() {
 	pageService := services.PageService()
 	page.Register(pageService)
 	page.Handle(new(controllers.PageController))
-	app.Get("/login",controllers.Login)
-	app.Get("/register",controllers.Register)
+	app.Get("/login", controllers.Login)
+	app.Get("/register", controllers.Register)
 	err := app.Run(
 		iris.Addr(":8090"),
 		iris.WithoutBanner,
