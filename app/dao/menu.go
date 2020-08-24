@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"../models"
 	"github.com/go-xorm/xorm"
+	"wumiao/app/models"
 )
 
 type Menu struct {
@@ -11,7 +11,7 @@ type Menu struct {
 
 func NewMenu(engine *xorm.Engine) *Menu {
 	return &Menu{
-		engine:engine,
+		engine: engine,
 	}
 }
 

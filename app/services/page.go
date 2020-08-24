@@ -1,9 +1,9 @@
 package services
 
 import (
-	"../../datasource"
-	"../dao"
-	"../models"
+	"wumiao/app/dao"
+	"wumiao/app/models"
+	"wumiao/datasource"
 )
 
 type Page interface {
@@ -12,7 +12,7 @@ type Page interface {
 	Get(string string) *models.Page
 	GetByUuid(string string) *models.Page
 	DeleteByID(id int) error
-	Update(data *models.Page, columns []string)  error
+	Update(data *models.Page, columns []string) error
 	Create(data *models.Page) error
 }
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./routes"
 	_ "github.com/joho/godotenv/autoload"
+	"wumiao/routes"
 )
 
 func main() {

@@ -1,21 +1,21 @@
 package datasource
 
 import (
-	"../config"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"log"
 	"sync"
+	"wumiao/config"
 )
 
 var (
-	masterEngine 	*xorm.Engine
-	slaveEngine 	*xorm.Engine
-	lock 			sync.Mutex
+	masterEngine *xorm.Engine
+	slaveEngine  *xorm.Engine
+	lock         sync.Mutex
 )
 
-func InstanceMaster() *xorm.Engine  {
+func InstanceMaster() *xorm.Engine {
 
 	if masterEngine != nil {
 		return masterEngine
@@ -28,7 +28,7 @@ func InstanceMaster() *xorm.Engine  {
 	}
 	c := config.MasterDbConfig
 
-	driveSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8",c.User,c.Pwd,c.Host,c.Port,c.DbName)
+	driveSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", c.User, c.Pwd, c.Host, c.Port, c.DbName)
 	engine, err := xorm.NewEngine(config.DriverName, driveSource)
 	if err != nil {
 		log.Fatal("dbhelper.DbInstanceMaster,", err)
@@ -45,7 +45,7 @@ func InstanceMaster() *xorm.Engine  {
 	return engine
 }
 
-func InstanceSlave() *xorm.Engine  {
+func InstanceSlave() *xorm.Engine {
 
 	if slaveEngine != nil {
 		return slaveEngine
@@ -57,12 +57,12 @@ func InstanceSlave() *xorm.Engine  {
 		return slaveEngine
 	}
 	c := config.SlaveDbConfig
-	driveSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8",c.User,c.Pwd,c.Host,c.Port,c.DbName)
+	driveSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", c.User, c.Pwd, c.Host, c.Port, c.DbName)
 	engine, err := xorm.NewEngine(config.DriverName, driveSource)
 	if err != nil {
-		log.Fatal("dbHelper.DbInstanceMaster error=",err)
+		log.Fatal("dbHelper.DbInstanceMaster error=", err)
 		return nil
-	}else {
+	} else {
 		slaveEngine = engine
 		return masterEngine
 	}

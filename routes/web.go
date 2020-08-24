@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"../app/controllers"
-	"../app/models"
-	"../app/services"
 	"github.com/kataras/iris"
-	"github.com/kataras/iris/mvc"
+	//"github.com/kataras/iris/mvc"
 	"time"
+	"wumiao/app/controllers"
+	"wumiao/app/models"
+	"wumiao/app/services"
 )
 
 type Menu struct {
@@ -17,7 +17,7 @@ type Menu struct {
 func FrontendStart() {
 	app := iris.New()
 	app.Logger().SetLevel("debug")
-	app.HandleDir("/", "./public")
+	//app.HandleDir("/", "./public")
 	// 设置关注的视图目录，和文件后缀
 	tmpl := iris.HTML("./resources/views/frontend", ".html")
 	tmpl.Layout("layouts/layout.html")
@@ -38,11 +38,11 @@ func FrontendStart() {
 	app.OnErrorCode(iris.StatusNotFound, notFound)
 	app.OnErrorCode(iris.StatusInternalServerError, internalServerError)
 	app.RegisterView(tmpl)
-
-	page := mvc.New(app.Party("/"))
-	pageService := services.PageService()
-	page.Register(pageService)
-	page.Handle(new(controllers.PageController))
+	//
+	//page := mvc.New(app.Party("/"))
+	//pageService := services.PageService()
+	//page.Register(pageService)
+	//page.Handle(new(controllers.PageController))
 	app.Get("/login", controllers.Login)
 	app.Get("/register", controllers.Register)
 	err := app.Run(
@@ -56,11 +56,11 @@ func FrontendStart() {
 func notFound(ctx iris.Context) {
 	// 出现 404 的时候，就跳转到 $views_dir/errors/404.html 模板
 	ctx.ViewLayout(iris.NoLayout)
-	ctx.View("errors/404.html")
+	_ = ctx.View("errors/404.html")
 }
 
 func internalServerError(ctx iris.Context) {
-	ctx.WriteString("Oups something went wrong, try again")
+	_, _ = ctx.WriteString("Oups something went wrong, try again")
 }
 
 func Nav() []models.Menu {

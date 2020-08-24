@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"../models"
 	"github.com/go-xorm/xorm"
+	"wumiao/app/models"
 )
 
 type Page struct {
@@ -11,13 +11,13 @@ type Page struct {
 
 func NewPage(engine *xorm.Engine) *Page {
 	return &Page{
-		engine:engine,
+		engine: engine,
 	}
 }
 
 func (d *Page) Get(string string) *models.Page {
-	data := &models.Page{Identifier:string}
-	ok, err := d.engine.Join("LEFT","page_data","page.id = page_data.page_id").Get(data)
+	data := &models.Page{Identifier: string}
+	ok, err := d.engine.Join("LEFT", "page_data", "page.id = page_data.page_id").Get(data)
 	if ok && err == nil {
 		return data
 	} else {
@@ -26,8 +26,8 @@ func (d *Page) Get(string string) *models.Page {
 }
 
 func (d *Page) GetByUuid(string string) *models.Page {
-	data := &models.Page{Uuid:string}
-	ok, err := d.engine.Join("LEFT","page_data","page.id = page_data.page_id").Get(data)
+	data := &models.Page{Uuid: string}
+	ok, err := d.engine.Join("LEFT", "page_data", "page.id = page_data.page_id").Get(data)
 	if ok && err == nil {
 		return data
 	} else {
@@ -37,7 +37,7 @@ func (d *Page) GetByUuid(string string) *models.Page {
 
 func (d *Page) GetList(parentId int) []models.Page {
 	datalist := make([]models.Page, 0)
-	err := d.engine.Where("parent_id=?",parentId).Desc("id").Find(&datalist)
+	err := d.engine.Where("parent_id=?", parentId).Desc("id").Find(&datalist)
 	if err != nil {
 		return datalist
 	} else {
@@ -55,7 +55,7 @@ func (d *Page) GetAll() []models.Page {
 	}
 }
 func (d *Page) Delete(id int) error {
-	data := models.Page{Id:id,Status:0}
+	data := models.Page{Id: id, Status: 0}
 	_, err := d.engine.Id(data.Id).Update(data)
 	return err
 }

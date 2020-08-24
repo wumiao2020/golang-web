@@ -1,9 +1,9 @@
 package services
 
 import (
-	"../../datasource"
-	"../dao"
-	"../models"
+	"wumiao/app/dao"
+	"wumiao/app/models"
+	"wumiao/datasource"
 )
 
 type Menu interface {
